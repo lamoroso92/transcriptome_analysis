@@ -92,6 +92,7 @@ for r1 in `ls ${outdir}/00_processed/03_prinseq/*.prinseq_1.fastq`; do
     	 		--sjdbGTFfile       ${refgtf} \
 			--genomeSAindexNbases 10 \
      			--sjdbOverhang      149 \
+			--alignSJDBoverhangMin 999 \
 		 > ${outdir}/01_star_index/STAR.index.log.out.txt \
 		2> ${outdir}/01_star_index/STAR.index.log.err.txt
 
@@ -108,6 +109,8 @@ STAR 	--runThreadN  	    ${num_threads} \
        	--genomeDir	    ${outdir}/01_star_index \
        	--readFilesIn       ${r1} ${r2} \
        	--sjdbGTFfile	    ${refgtf} \
+        --alignIntronMax    1 \
+        --alignMatesGapMax  0 \
        	--outFileNamePrefix ${outdir}/02_star_out_pe/${name}/ \
 	--outSAMtype        BAM Unsorted \
 	--outSAMstrandField intronMotif \
@@ -125,6 +128,8 @@ STAR 	--runThreadN  	    ${num_threads} \
        	--genomeDir	    ${outdir}/01_star_index \
        	--readFilesIn       ${r1_singletons},${r2_singletons} \
        	--sjdbGTFfile	    ${refgtf} \
+	--alignIntronMax    1 \
+	--alignMatesGapMax  0 \
 	--outSAMtype        BAM Unsorted \
 	--outSAMstrandField intronMotif \
         --outFileNamePrefix ./$outdir/03_star_out_se/${name}/ \
